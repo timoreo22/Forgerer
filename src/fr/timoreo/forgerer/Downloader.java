@@ -7,6 +7,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Downloader {
@@ -73,6 +74,19 @@ public class Downloader {
 	}
 
     /**
+     * Gets the Recommanded Version assuming <code>Downloader.getForgeVersion(MCVersion,tempFolder);</code> has been run
+     *
+     * @param MCVersion the mc version to check
+     * @return the recommanded forge version
+     * @see Downloader#getForgeVersion(String, String)
+     */
+	public static String getRecommandedVersion(String MCVersion){
+
+	    return recommandedVersions.get(MCVersion);
+    }
+
+    private static HashMap<String,String> recommandedVersions = new HashMap<>();
+    /**
      * Gets every forge version for this MC version
      * @param tempFolder the temporary folder where to stock a temporary file
      * @param MCVersion the mc version to get forge versions from
@@ -95,19 +109,27 @@ public class Downloader {
 		reader = new BufferedReader(new FileReader(file));
 		line = reader.readLine();
 		boolean isRawVersion = false;
-
+        boolean checkVersion = false;
+        String linebef = "";
 		while (line != null) 
         {
             
-             if(line.contains("<td class=\"download-version\">")) {
-            	 isRawVersion = true;
-             }
+             if(line.contains("<td class=\"download-version\">")) isRawVersion = true;
+
              // System.out.println("Contenu : " + line);
              System.out.println("Ligne Lue! " + num + "/" + i + " Pourcentage : " + num*100/i +"%");
             line = reader.readLine();
+            if(checkVersion){
+                checkVersion = false;
+                if(line.contains("<i class=\"fa promo-recommended\"></i>")){
+                    recommandedVersions.put(MCVersion,linebef);
+                }
+            }
             if(isRawVersion) {
+                checkVersion = true;
             	isRawVersion = false;
             	ar.add(line.substring("                                ".length()));
+            	linebef = line.substring("                                ".length());
             }
             num++;
           
