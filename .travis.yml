@@ -1,6 +1,7 @@
 language: java
 jdk:
   - oraclejdk8
-script:
+before_script:
   -find -name "*.java" > sources.txt
+script:
   -javac @sources.txt
