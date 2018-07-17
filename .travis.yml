@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 before_script:
-  find -name "*.java" > sources.txt
-  wget https://repository.ow2.org/nexus/content/repositories/releases/org/ow2/asm/asm-all/5.2/asm-all-5.2.jar
+  - find -name "*.java" > sources.txt
+  - wget https://repository.ow2.org/nexus/content/repositories/releases/org/ow2/asm/asm-all/5.2/asm-all-5.2.jar
 script:
   javac -cp asm-all-5.2.jar @sources.txt
