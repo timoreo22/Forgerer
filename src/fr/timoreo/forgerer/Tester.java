@@ -13,8 +13,10 @@ public class Tester {
      * @param path the full path to the folder
      */
     public static void setPath(String path) {
-        Tester.path = path;
-        notifier.notifyAll();
+        synchronized (notifier) {
+            Tester.path = path;
+            notifier.notifyAll();
+        }
     }
 
     /**

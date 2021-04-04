@@ -286,7 +286,10 @@ public class Downloader {
         @Override
         public void characters(char[] ch, int start, int length) {
             if (isParsingVersions) {
-                versions.add(new String(ch, start, length));
+                String version = new String(ch, start, length);
+                if (!version.startsWith("\n")) {
+                    versions.add(version);
+                }
             }
         }
     }
