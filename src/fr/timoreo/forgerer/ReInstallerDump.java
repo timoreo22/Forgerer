@@ -1,8 +1,16 @@
 package fr.timoreo.forgerer;
+
 import org.objectweb.asm.*;
+
+/**
+ * The installer won't allow installing a client from the command line
+ * this patches the installer to allow a client to be installed too
+ * this is horrible, and probably won't work for newer versions
+ * this should be changed ASAP
+ */
 public class ReInstallerDump implements Opcodes {
 
-    public static byte[] dump () {
+    public static byte[] dump() {
 
         ClassWriter cw = new ClassWriter(0);
         MethodVisitor mv;
